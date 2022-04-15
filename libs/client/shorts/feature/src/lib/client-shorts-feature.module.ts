@@ -46,6 +46,5 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, } from '@angular/forms';
   providers: [
     FormBuilder
   ],
-  exports: [StoryExploreComponent]
 })
 export class ClientShortsFeatureModule {}

@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, RendererFactory2, ViewChild } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -39,6 +38,7 @@ export class StoryExploreComponent implements OnInit {
 
   @ViewChild('vid') d1! : ElementRef;
 
+
   uploadfrm! : FormGroup;
   reportfrm! : FormGroup;
   builder! : FormBuilder; 
@@ -59,7 +59,6 @@ export class StoryExploreComponent implements OnInit {
   successfulUpload : boolean;
   reported : boolean;
   apifailure = "";
-
   shortId = "cl22e308w0208hcvks42s959n";
   userId = "69";
 
@@ -315,7 +314,7 @@ export class StoryExploreComponent implements OnInit {
     // Reset elements
     this.viewingName = "";
     this.viewingTags = "";
-
+    this.viewing = true;
     const getSelectedQ =gql`query {
       getShortById(id: "${s}"){
         user{ 
@@ -588,7 +587,7 @@ export class StoryExploreComponent implements OnInit {
     })
     .valueChanges.subscribe((result: any) => {
       const allShorts = result.data.getAllShorts;
-      
+
       const all = result.data.getAllShorts;
       for (let index = 0; index < all.length; index++) {
         if(all[index].user.name === sText) this.cardlist.push(all[index]);

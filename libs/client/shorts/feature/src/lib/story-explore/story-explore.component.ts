@@ -166,6 +166,7 @@ export class StoryExploreComponent implements OnInit {
       //get Tag array:
       const tags = this.getTagArray();
 
+
       this.loadwheel = true;
 
       //form is valid here, upload to the API:
@@ -192,7 +193,8 @@ export class StoryExploreComponent implements OnInit {
   uploadShortToAPI(tags : any) {
     return new Promise((resolve, _) => {
       //mutation to the API for creating a short:
-
+      const vidFormat = this.VideoFileBase64.substring(this.VideoFileBase64.indexOf(",")+1);
+      const thumbFormat = this.ThumbnailFileBase64.substring(this.ThumbnailFileBase64.indexOf(",")+1);
       if (!(this.apollo.client === undefined))
       this.apollo
         .mutate ({
@@ -210,12 +212,10 @@ export class StoryExploreComponent implements OnInit {
           mutation: gql`
                 mutation {
                   createShort(
-                      short: { description: "My short", archived: false, shortTag: ${ tags }},
-                      userId: "", 
-                      vidString: "${ this.VideoFileBase64 }", 
-                      vidCat: Videos, 
-                      thumbString: "${ this.ThumbnailFileBase64 }", 
-                      thumbCat:: Files
+                      short: { description: "My short", archived: false, shortTag:[{tag: "test"}]},
+                      userId: "69", 
+                      vidString: "${ vidFormat }", 
+                      thumbString: "${ thumbFormat }", 
                       ) {
                           id,
                           userId,
@@ -223,7 +223,7 @@ export class StoryExploreComponent implements OnInit {
                           link,
                           thumbnail,
                           datePosted,
-                          archive,
+                          archived,
                           user {
                               id,
                               email,
@@ -539,6 +539,7 @@ export class StoryExploreComponent implements OnInit {
       query: gql(this.getALLCardsQuery), // apollo query
     })
     .valueChanges.subscribe((result: any) => {
+      const all = result.data.getAllShorts;
 
       // assign api output to cardlist
       this.cardlist = result.data.getAllShorts;
@@ -561,7 +562,7 @@ export class StoryExploreComponent implements OnInit {
     })
     .valueChanges.subscribe((result: any) => {
       const all = result.data.getAllShorts;
-      
+
       for (let index = 0; index < all.length; index++) {
         for(const el of all[index].shortTag){
           if(el.tag.toUpperCase() === sText.toUpperCase()) {
@@ -586,6 +587,8 @@ export class StoryExploreComponent implements OnInit {
       query: gql(this.getALLCardsQuery),
     })
     .valueChanges.subscribe((result: any) => {
+      const allShorts = result.data.getAllShorts;
+      
       const all = result.data.getAllShorts;
       for (let index = 0; index < all.length; index++) {
         if(all[index].user.name === sText) this.cardlist.push(all[index]);

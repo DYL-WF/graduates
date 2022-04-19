@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Location } from '@angular/common';
 
 import {Apollo, gql} from 'apollo-angular';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'graduates-story-explore',
@@ -82,7 +83,7 @@ export class StoryExploreComponent implements OnInit {
   fileError = "File is required.";
   uploadedFile! : any;
 
-  constructor(private apollo: Apollo ,private breakpointObserver: BreakpointObserver, f : FormBuilder, private location: Location) {
+  constructor(private http: HttpClient, private apollo: Apollo ,private breakpointObserver: BreakpointObserver, f : FormBuilder, private location: Location) {
     this.upload = false;
     this.builder = f;
     this.return = false;
@@ -351,7 +352,7 @@ export class StoryExploreComponent implements OnInit {
       }
 
 
-      this.embedVideoToCard(selectedCard.link);;
+      this.embedVideoToCard(selectedCard.link);
 
       // add video to selected card
 
@@ -380,6 +381,7 @@ export class StoryExploreComponent implements OnInit {
 
 
   }
+
   //==========================================================================================================================//
   // - onclick event to close story
   //==========================================================================================================================//
@@ -541,7 +543,18 @@ export class StoryExploreComponent implements OnInit {
       const all = result.data.getAllShorts;
 
       // assign api output to cardlist
+      
       this.cardlist = result.data.getAllShorts;
+
+      
+      // let fR = new FileReader();
+      // const f = this.http.get(all.thumbnail).;
+
+      // fR.onload = (e) => {
+      // }
+      // fR.readAsText(f[o]);
+      // const bEncod =  "data:image/jpeg;base64," ;
+
 
       //reset end index and reload the cards on screen
       this.endIndex = Math.ceil(this.cardlist.length/this.cardsPerPage);

@@ -15,7 +15,7 @@ import {Apollo, gql} from 'apollo-angular';
 
 import { HeaderModule } from '../../../../shared/components/header/src/lib/header.module';
 import { FooterModule } from '../../../../shared/components/footer/src/lib/footer.module';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
 
   imports: [
@@ -26,6 +26,7 @@ import { FooterModule } from '../../../../shared/components/footer/src/lib/foote
     ShortsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     
     FooterModule,
     HeaderModule,
@@ -35,7 +36,7 @@ import { FooterModule } from '../../../../shared/components/footer/src/lib/foote
     StoryUploadComponent,
   ],
   providers: [
-    FormBuilder, Apollo,
+    FormBuilder, Apollo, HttpClientModule
   ],
   exports: [StoryExploreComponent]
 })
